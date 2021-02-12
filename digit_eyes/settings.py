@@ -12,12 +12,8 @@ BOT_NAME = 'digit_eyes'
 SPIDER_MODULES = ['digit_eyes.spiders']
 NEWSPIDER_MODULE = 'digit_eyes.spiders'
 
-
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'digit_eyes (+http://www.yourdomain.com)'
-
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 CONCURRENT_REQUESTS = 32
@@ -27,8 +23,7 @@ DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
 CONCURRENT_REQUESTS_PER_IP = 9
 
-# Disable Telnet Console (enabled by default)
-#TELNETCONSOLE_ENABLED = False
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:79.0) Gecko/20100101 Firefox/79.0'
 
 # Override the default request headers:
 # DEFAULT_REQUEST_HEADERS = {
@@ -43,8 +38,14 @@ CONCURRENT_REQUESTS_PER_IP = 9
 
 # Enable or disable downloader middlewares
 # DOWNLOADER_MIDDLEWARES = {
-#    'digit_eyes.middlewares.DigitEyesDownloaderMiddleware': 543,
+#     'digit_eyes.middlewares.DigitEyesDownloaderMiddleware': None,
+#     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+#     'scrapy_user_agents.middlewares.RandomUserAgentMiddleware': 400,
 # }
+# RANDOM_UA_TYPE = 'desktop.firefox'
+# RANDOM_UA_SAME_OS_FAMILY = True
+# RANDOM_UA_PER_PROXY = True
+# FAKEUSERAGENT_FALLBACK = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:79.0) Gecko/20100101 Firefox/79.0'
 
 # Enable or disable extensions
 # EXTENSIONS = {
@@ -53,7 +54,7 @@ CONCURRENT_REQUESTS_PER_IP = 9
 
 # Configure item pipelines
 ITEM_PIPELINES = {
-    'digit_eyes.pipelines.DigitEyesPipeline': None,
+    'digit_eyes.pipelines.DigitEyesPipeline': 543,
     'digit_eyes.pipelines.CustomImagesPipeline': 1,
 }
 IMAGES_STORE = 'images'

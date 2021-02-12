@@ -1,6 +1,8 @@
+
 import json
 
 import scrapy
+from scrapy.http import FormRequest
 import pandas as pd
 
 from ..items import DigitEyesItem
@@ -9,7 +11,7 @@ from ..items import DigitEyesItem
 class DigiteyesSpiderSpider(scrapy.Spider):
     name = 'digiteyes'
     # allowed_domains = ['http://www.digit-eyes.com']
-    # start_urls = ['http://www.digit-eyes.com/']
+    start_urls = ['https://www.digit-eyes.com/cgi-bin/digiteyes.cgi/']
 
     def __init__(self, sku_range="15-19", *args, **kwargs):
         super(DigiteyesSpiderSpider, self).__init__(*args, **kwargs)
@@ -17,7 +19,20 @@ class DigiteyesSpiderSpider(scrapy.Spider):
         self.end_index = int(sku_range.split('-')[1])
         assert self.start_index < self.end_index, "start of range should be less than end"
 
-    def get_urls(self, file_path):
+    def parse(self, response):
+        """
+        Default method called after start_urls, using it to login.
+        """
+        form_data = {
+            'upcCode': '',
+            'action': 'login',
+            'quickScan': '',
+            'email': 'ravenredstain@outlook.com',
+            'passwd': 'sf;lkg*(Hs5',
+        }
+        return FormRequest.from_response(response, formdata=form_data, callback=self.generate_item_urls)
+
+    def get_item_urls(self, file_path):
         urls = []
         barcodes = pd.read_excel(io=file_path)['barcode']
         barcodes_slice = barcodes.iloc[self.start_index - 1:self.end_index + 1]
@@ -28,18 +43,15 @@ class DigiteyesSpiderSpider(scrapy.Spider):
 
         return urls
 
-    def start_requests(self):
+    def generate_item_urls(self, response):
         # starting urls for scraping
-        urls = self.get_urls("Barcodes.xlsx")
+        urls = self.get_item_urls("Barcodes.xlsx")
 
         for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+            yield scrapy.Request(url=url, callback=self.parse_item)
 
-    def parse(self, response):
+    def parse_item(self, response):
         item = DigitEyesItem()
-
-        # bad_title = 'Digit-Eyes Voice Labeling System'
-        # if response.css("title::text").get() != bad_title:
 
         json_rsp_str = response.css(
             "td.cCol > script:nth-child(2)::text").get()
@@ -55,7 +67,7 @@ class DigiteyesSpiderSpider(scrapy.Spider):
             if json_rsp.get("image") != ['']:
                 item["image_urls"] = json_rsp.get("image")
             else:
-                item["image_urls"] = None
+                item["image_urls"] = []
 
             try:
                 if json_rsp["offers"] != "":

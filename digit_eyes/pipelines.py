@@ -6,12 +6,20 @@
 
 # useful for handling different item types with a single interface
 import scrapy
+from scrapy.exceptions import DropItem
 from itemadapter import ItemAdapter
 from scrapy.pipelines.images import ImagesPipeline
 
 
 class DigitEyesPipeline:
     def process_item(self, item, spider):
+        if item['images'] == []:
+            # no image obtained for the item
+            raise DropItem
+        else:
+            del item['images']
+            del item['image_urls']
+
         return item
 
 
