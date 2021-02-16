@@ -13,12 +13,8 @@ from scrapy.pipelines.images import ImagesPipeline
 
 class DigitEyesPipeline:
     def process_item(self, item, spider):
-        if item['images'] == []:
-            # no image obtained for the item
-            raise DropItem
-        else:
-            del item['images']
-            del item['image_urls']
+        del item['images']
+        del item['image_urls']
 
         return item
 
