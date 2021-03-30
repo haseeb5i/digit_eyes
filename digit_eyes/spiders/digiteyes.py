@@ -97,8 +97,18 @@ class DigiteyesSpiderSpider(scrapy.Spider):
     #                                      meta={"cookiejar": response.meta["cookiejar"],
     #                                            "sku_range": response.meta["sku_range"]})
 
-    def start_requests(self, response):
-        # open_in_browser(response)
+    # def start_requests(self):
+    #     urls = []
+    #     # start = response.meta["sku_range"].split("-")[0]
+    #     # end = response.meta["sku_range"].split("-")[-1]
+    #     start = self.start_index
+    #     end = self.end_index
+    #     barcodes_slice = self.barcodes.iloc[int(start): int(end)]
+
+    #     for b in barcodes_slice:
+    #         yield scrapy.Request(url=self.api_url, callback=self.make_item_requests)
+
+    def start_requests(self):
 
         urls = []
         # start = response.meta["sku_range"].split("-")[0]
@@ -118,8 +128,12 @@ class DigiteyesSpiderSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse_item)
 
     def parse_item(self, response):
-        item = DigitEyesItem()
+        open_in_browser(response)
+        if response.css('title::text').get() == 'Digit-Eyes Voice Labeling System':
+            yield scrapy.Request(url=response.url, dont_filter=True)
+            return
 
+        item = DigitEyesItem()
         try:
             json_rsp_str = response.css(
                 "td.cCol > script:nth-child(2)::text").get()

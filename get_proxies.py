@@ -28,7 +28,7 @@ print("Total proxies scraped : ", data.len)
 f = open("proxies.txt", "w")
 
 for proxy in data.proxies:
-    s = f"https://{proxy.ip}:{proxy.port}\n"
+    s = f"{proxy.ip}:{proxy.port}\n"
     f.write(s)
 
 f.close()
