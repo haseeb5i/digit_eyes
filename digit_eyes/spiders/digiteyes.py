@@ -128,7 +128,7 @@ class DigiteyesSpiderSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse_item)
 
     def parse_item(self, response):
-        open_in_browser(response)
+        # open_in_browser(response)
         if response.css('title::text').get() == 'Digit-Eyes Voice Labeling System':
             yield scrapy.Request(url=response.url, dont_filter=True)
             return
