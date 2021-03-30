@@ -137,7 +137,6 @@ class DigiteyesSpiderSpider(scrapy.Spider):
         try:
             json_rsp_str = response.css(
                 "td.cCol > script:nth-child(2)::text").get()
-
             json_rsp = json.loads(json_rsp_str)
 
             item["name"] = json_rsp.get("name")
@@ -168,4 +167,4 @@ class DigiteyesSpiderSpider(scrapy.Spider):
             self.logger.error(f"No hit against {response.url}", exc_info=True)
 
 
-# scrapy crawl digiteyes -a sku_range=67-71
+# scrapy crawl digiteyes -a sku_range="67-71" -o data.csv -s JOB_DIR=tmp_savedir

@@ -1,9 +1,9 @@
 from rotating_proxies.policy import BanDetectionPolicy
 
 
-class MyPolicy(BanDetectionPolicy):
+class MyBanPolicy(BanDetectionPolicy):
     def response_is_ban(self, request, response):
-        ban = super(MyPolicy, self).response_is_ban(request, response)
+        ban = super(MyBanPolicy, self).response_is_ban(request, response)
         ban = ban or b'Digit-Eyes' not in response.body
         return ban
 

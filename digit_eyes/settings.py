@@ -19,10 +19,10 @@ ROBOTSTXT_OBEY = False
 CONCURRENT_REQUESTS = 32
 
 # Configure a delay for requests for the same website (default: 0)
-DOWNLOAD_DELAY = 1
+# DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 32
-CONCURRENT_REQUESTS_PER_IP = 1
+# CONCURRENT_REQUESTS_PER_IP = 1
 
 USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0'
 

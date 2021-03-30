@@ -1,1 +1,1 @@
-scrapy crawl digiteyes -a sku_range="10000-20000" -o data1.csv -s JOBDIR=~/Development/python/scrapy/digit_eyes/tmp_savedir
+scrapy crawl digiteyes -a sku_range="10000-20000" -o data1.csv -s JOBDIR=tmp_savedir
