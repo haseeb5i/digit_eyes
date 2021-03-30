@@ -81,6 +81,7 @@ target/
 profile_default/
 ipython_config.py
 
+
 # pyenv
 .python-version
 
@@ -129,7 +130,7 @@ dmypy.json
 .pyre/
 
 # customs
-proxy_list.txt
+.vscode/
 proxies.txt
 images/
 Barcodes.xlsx
